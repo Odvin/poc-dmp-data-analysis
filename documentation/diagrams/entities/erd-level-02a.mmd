@@ -1,0 +1,36 @@
+---
+title: Entities attributes
+---
+erDiagram
+  COMPANY ||--|{ contract : plan
+  contract }|--|| PROJECT : describe
+  COMPANY ||--|{ tracker : implement
+  PROJECT ||--|{ activity : contain
+  PROJECT ||--|{ JOB : contain
+  PROJECT ||--|{ capacity : require
+  activity }|--|| JOB : define
+  activity ||--|{ tracker  : track
+  COMPANY ||--|{ capacity  : provide
+  capacity }|--|| JOB  : fulfill
+  COMPANY {
+    STRING id PK "UUID of the company"
+    STRING title "NOT NULL. Company title"
+    STRING country "NOT NULL. Company location ISO A-2 code"
+    INT rating "NOT NULL. Company rating score"
+  }
+  PROJECT {
+    STRING id PK "UUID of the project"
+    STRING title "NOT NULL. Project title"
+    INT budget "NOT NULL. Total project budget"
+    STRING country "NOT NULL. Project location ISO A-2 code"
+    STRING start_at "NOT NULL. Starting date as :: yyyy-mm-dd"
+    STRING end_at "NOT NULL. Ending date as :: yyyy-mm-dd"
+  }
+  JOB {
+    STRING id PK "UUID of the job"
+    S project_id FK "UUID of the project"
+    STRING title "NOT NULL. Job title"
+    ENUM scope "NOT NULL. From JOB_SCOPE_TYPE"
+    INT budget "NOT NULL. Job budget"
+    INT estimate "NOT NULL. Dates to complete the job"
+  }

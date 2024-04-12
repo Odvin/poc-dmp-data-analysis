@@ -1,0 +1,79 @@
+---
+title: Process implementation
+---
+stateDiagram-v2
+  state "[S-01] Project creation" as project
+  
+  state fork_project_planning <<fork>>
+  state join_project_planning <<join>>
+
+  state "[S-02] Jobs planning" as jobsPlanning
+  state "[S-03] Companies invitation" as companiesInvitation
+  state "[S-04] Contract signing" as contractSigning
+
+  state "[C-00] Capacity planning" as capacityPlanning
+  state "[C-01] Capacity providing" as capacityProviding
+  state "[C-02] Capacity correcting" as capacityCorrecting
+
+  state "[S-05] Activity initiation" as activityInitiation
+  state "Activity tracking" as activityTracking
+  state "Confirm progress" as confirmProgress
+
+  state "[S-06] Recommendation\n to initiate distribution" as initDistribution
+  state "Approve distribution" as approveDistribution
+  state "Provide recommendation" as provideRecommendation
+  state "Summary analysis" as summaryAnalysis
+  state "Project summary" as projectSummary
+  state "Provide custom distribution" as customDistribution
+  state "Validate custom distribution" as validateDistribution
+
+  state if_activity <<choice>>
+  state if_first_iteration <<choice>>
+  state if_last_iteration <<choice>>
+  state if_recommendation_accepted <<choice>>
+  state if_validation_accepted <<choice>>
+
+  [*] --> project
+  project --> fork_project_planning : PROJECT is filled with data
+  
+  fork_project_planning --> jobsPlanning
+  fork_project_planning --> companiesInvitation
+  jobsPlanning --> join_project_planning : JOB is filled with data
+  companiesInvitation --> join_project_planning : COMPANY is filled with data
+  join_project_planning --> contractSigning
+  contractSigning --> activityInitiation : contract is filled with data 
+  activityInitiation --> capacityPlanning : activity is filled with data
+  
+  state capacityPlanning {
+    [*] --> capacityProviding : The company, ones a day or week (monitor period)
+    capacityProviding --> capacityCorrecting : capacity is filled with data
+    capacityCorrecting --> capacityProviding : capacity is filled with data
+    capacityProviding --> [*]
+  }
+
+  capacityPlanning --> if_first_iteration : Ones a day or week (monitor period)
+  if_first_iteration --> initDistribution : First iteration
+  if_first_iteration --> activityTracking : Next iteration
+  initDistribution --> activityTracking : tracker is filled with data
+  
+  activityTracking --> if_activity: analyze the progress
+  
+  if_activity --> confirmProgress : It is OK
+  if_activity --> provideRecommendation : Problem detected
+  provideRecommendation --> if_recommendation_accepted
+  if_recommendation_accepted --> approveDistribution: accepted
+  approveDistribution --> confirmProgress : capacity is filled with data
+  if_recommendation_accepted --> customDistribution: updated/recrated
+  customDistribution --> validateDistribution : run the task for validation
+  validateDistribution --> if_validation_accepted
+  if_validation_accepted --> approveDistribution: valid
+  if_validation_accepted --> provideRecommendation: invalid
+  confirmProgress --> if_last_iteration
+  if_last_iteration --> projectSummary : Last iteration
+  projectSummary --> [*] : Data archiving
+  if_last_iteration --> summaryAnalysis: Project is in progress
+  summaryAnalysis --> if_first_iteration: Send reports
+  
+
+  
+

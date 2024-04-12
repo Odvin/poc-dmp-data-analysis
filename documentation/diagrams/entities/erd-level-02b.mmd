@@ -1,0 +1,67 @@
+---
+title: Entities attributes
+---
+erDiagram
+  COMPANY ||--|{ contract : plan
+  contract }|--|| PROJECT : describe
+  COMPANY ||--|{ tracker : implement
+  PROJECT ||--|{ activity : contain
+  PROJECT ||--|{ JOB : contain
+  PROJECT ||--|{ capacity : require
+  activity }|--|| JOB : define
+  activity ||--|{ tracker  : track
+  COMPANY ||--|{ capacity  : provide
+  capacity }|--|| JOB  : fulfill
+  COMPANY {
+    S id PK "UUID of the company"
+    S title "NOT NULL. Company title"
+    S country "NOT NULL. Company location ISO A-2 code"
+    I rating "NOT NULL. Company rating score"
+  }
+  contract {
+    S company_id FK "UUID of the company"
+    S project_id FK "UUID of the project"
+    I allocation "NOT NULL. Company job allocation"
+  }
+  PROJECT {
+    S id PK "UUID of the project"
+    S title "NOT NULL. Project title"
+    I budget "NOT NULL. Total project budget"
+    S country "NOT NULL. Project location ISO A-2 code"
+    S start_at "NOT NULL. Starting date as :: yyyy-mm-dd"
+    S end_at "NOT NULL. Ending date as :: yyyy-mm-dd"
+  }
+  activity {
+    S id PK "UUID of the activity"
+    S project_id FK "UUID of the project"
+    S job_id FK "UUID of the job"
+    S location "NOT NULL. Activity location ISO A-2 code"
+    S site "NOT NULL. Site code"
+    S start_at "NOT NULL. Starting date as :: yyyy-mm-dd"
+    S end_at "NOT NULL. Ending date as :: yyyy-mm-dd"
+  }
+  tracker {
+    S company_id FK "UUID of the company"
+    S activity_id FK "UUID of the activity"
+    S created_at "NOT NULL. Date of tracker creation :: yyyy-mm-dd"
+    E status "NOT NULL. From ACTIVITY_STATUS_TYPE"
+    I progress "NOT NULL. Progress for the completion in percents"
+  }
+  capacity {
+    S created_at PK "NOT NULL. Date of creation :: yyyy-mm-dd"
+    S company_id FK "UUID of the company"
+    S project_id FK "UUID of the project"
+    S job_id FK "UUID of the job"
+    I amount "NOT NULL. Dates for the job"
+    E status "NOT NULL. From CAPACITY_STATUS_TYPE"
+    S actual_at "NOT NULL. Date of availability :: yyyy-mm-dd"
+    S description "NOT NULL. Notes and explanation"
+  }
+  JOB {
+    S id PK "UUID of the job"
+    S project_id FK "UUID of the project"
+    S title "NOT NULL. Job title"
+    E scope "NOT NULL. From JOB_SCOPE_TYPE"
+    I budget "NOT NULL. Job budget"
+    I estimate "NOT NULL. Dates to complete the job"
+  }

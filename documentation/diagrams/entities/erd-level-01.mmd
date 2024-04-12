@@ -1,0 +1,14 @@
+---
+title: Entities relations
+---
+erDiagram
+  COMPANY ||--|{ contract : plan
+  contract }|--|| PROJECT : describe
+  COMPANY ||--|{ tracker : implement
+  PROJECT ||--|{ activity : contain
+  PROJECT ||--|{ JOB : contain
+  PROJECT ||--|{ capacity : require
+  activity }|--|| JOB : define
+  activity ||--|{ tracker  : track
+  COMPANY ||--|{ capacity  : provide
+  capacity }|--|| JOB  : fulfill
