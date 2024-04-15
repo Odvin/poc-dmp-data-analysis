@@ -5,8 +5,8 @@
 | company_id | project_id | job_id | amount | status     | actual_at  | created_at | description            |
 | ---------- | ---------- | ------ | ------ | ---------- | ---------- | ---------- | ---------------------- |
 | cm-y01     | pr-a01     | jb-a01 | 12     | Possible   | 2023-01-01 | 2023-01-01 | Helicopter required    |
-| cm-y01     | pr-a01     | jb-a03 | 10     | Difficult  | 2023-01-20 | 2023-05-01 | Weather condition      |
-| cm-y01     | pr-a01     | jb-a03 | 10     | Preferably | 2023-01-20 | 2023-05-10 |                        |
+| cm-y01     | pr-a01     | jb-a03 | 10     | Difficult  | 2023-01-20 | 2023-01-05 | Weather condition      |
+| cm-y01     | pr-a01     | jb-a03 | 10     | Preferably | 2023-01-20 | 2023-01-10 |                        |
 | cm-y01     | pr-a01     | jb-a05 | 13     | Preferably | 2023-02-01 | 2023-01-01 |                        |
 | cm-y02     | pr-a01     | jb-a01 | 10     | Preferably | 2023-01-01 | 2023-01-01 |                        |
 | cm-y02     | pr-a01     | jb-a02 | 12     | Possible   | 2023-01-14 | 2023-01-01 |                        |
@@ -35,5 +35,11 @@
   "description": "Helicopter required"
 }
 ```
+
+# Activity
+
+![Project activity](../infographics/S-05-activity-init.svg 'Activities initiation')
+
+# Capacity
 
 ![Project capacity](../infographics/C-01-capacity-01.svg 'Company capacity for the project')
